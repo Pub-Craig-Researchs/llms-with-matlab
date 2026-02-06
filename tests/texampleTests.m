@@ -1,7 +1,7 @@
 classdef texampleTests < matlab.unittest.TestCase
 % Smoke level tests for the example .mlx files
 
-%   Copyright 2024-2025 The MathWorks, Inc.
+%   Copyright 2024-2026 The MathWorks, Inc.
 
 
     properties(TestParameter)
@@ -68,6 +68,11 @@ classdef texampleTests < matlab.unittest.TestCase
         function testAnalyzeSentimentinTextUsingChatGPTwithStructuredOutput(testCase)
             testCase.startCapture("AnalyzeSentimentinTextUsingChatGPTwithStructuredOutput");
             evalc("AnalyzeSentimentinTextUsingChatGPTwithStructuredOutput");
+        end
+        
+        function testAnalyzeTableDataUsingChatGPTExample(testCase)
+            testCase.startCapture("AnalyzeTableDataUsingChatGPTExample");
+            evalc("AnalyzeTableDataUsingChatGPTExample");
         end
 
         function testAnalyzeTextDataUsingParallelFunctionCallwithChatGPT(testCase)
@@ -175,6 +180,16 @@ classdef texampleTests < matlab.unittest.TestCase
         function testUsingDALLEToGenerateImages(testCase)
             testCase.startCapture("UsingDALLEToGenerateImages");
             evalc("UsingDALLEToGenerateImages");
+        end
+
+        function testVisualizeTableDataUsingChatGPTExample(testCase)
+            % Note: When in recording mode, running this test generates
+            % modal dialogs that must be interacted with manually. For
+            % security purposes, AI-generated code should be viewed by a
+            % human before running. In replay mode, the code has already
+            % been approved, so the dialog is bypassed.
+            testCase.startCapture("VisualizeTableDataUsingChatGPTExample");
+            evalc("VisualizeTableDataUsingChatGPTExample");
         end
     end    
 end

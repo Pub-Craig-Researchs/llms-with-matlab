@@ -59,6 +59,9 @@ For more information about how to connect to the different APIs from MATLAB, inc
 ### Agentic Workflows
 - [Solve Simple Math Problem Using AI Agent](/examples/SolveSimpleMathProblemUsingAIAgent.md)
 - [Fit Polynomial to Data Using AI Agent](/examples/FitPolynomialToDataUsingAIAgentExample.md) (requires Curve Fitting Toolbox™)
+### Data Analysis
+- [Analyze Table Data Using ChatGPT](/examples/AnalyzeTableDataUsingChatGPTExample.md)
+- [Visualize Table Data Using ChatGPT](/examples/VisualizeTableDataUsingChatGPTExample.md)
 ### Tool Calling
 - [Analyze Scientific Papers Using ChatGPT Function Calls](/examples/AnalyzeScientificPapersUsingFunctionCalls.md)
 - [Analyze Text Data Using Parallel Function Calls with ChatGPT](/examples/AnalyzeTextDataUsingParallelFunctionCallwithChatGPT.md)
@@ -101,4 +104,4 @@ The license is available in the [license.txt](license.txt) file in this GitHub r
 ## Community Support
 [MATLAB Central](https://www.mathworks.com/matlabcentral)
 
-Copyright 2023-2025 The MathWorks, Inc.
+Copyright 2023-2026 The MathWorks, Inc.
