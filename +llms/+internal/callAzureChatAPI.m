@@ -37,7 +37,7 @@ function [text, message, response] = callAzureChatAPI(endpoint, deploymentID, me
 %   % Send a request
 %   [text, message] = llms.internal.callAzureChatAPI(messages, functions, APIKey=apiKey)
 
-%   Copyright 2023-2025 The MathWorks, Inc.
+%   Copyright 2023-2026 The MathWorks, Inc.
 
 arguments
     endpoint
@@ -59,6 +59,8 @@ arguments
     nvp.TimeOut
     nvp.StreamFun
     nvp.sendRequestFcn
+    nvp.Verbosity
+    nvp.ReasoningEffort
 end
 
 URL = matlab.net.URI(endpoint);

@@ -37,7 +37,7 @@ function [text, message, response] = callOpenAIChatAPI(messages, functions, nvp)
 %   % Send a request
 %   [text, message] = llms.internal.callOpenAIChatAPI(messages, functions, APIKey=apiKey)
 
-%   Copyright 2023-2024 The MathWorks, Inc.
+%   Copyright 2023-2026 The MathWorks, Inc.
 
 arguments
     messages
@@ -57,6 +57,8 @@ arguments
     nvp.TimeOut
     nvp.StreamFun
     nvp.sendRequestFcn
+    nvp.Verbosity
+    nvp.ReasoningEffort
 end
 
 END_POINT = "https://api.openai.com/v1/chat/completions";

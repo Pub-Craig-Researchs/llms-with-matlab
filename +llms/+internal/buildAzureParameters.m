@@ -55,6 +55,14 @@ if nvp.MaxNumTokens == Inf
     parameters = rmfield(parameters,dict("MaxNumTokens"));
 end
 
+if nvp.Verbosity ~= "auto"
+    parameters.verbosity = nvp.Verbosity;
+end
+
+if nvp.ReasoningEffort ~= "auto"
+    parameters.reasoning_effort = nvp.ReasoningEffort;
+end
+
 end
 
 function dict = mapNVPToParameters()

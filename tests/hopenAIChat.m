@@ -100,6 +100,40 @@ classdef (Abstract) hopenAIChat < hstructuredOutput & htoolCalls & htoolChoice
             unsetenv("AZURE_OPENAI_API_KEY");
             testCase.verifyError(testCase.constructor, "llms:keyMustBeSpecified");
         end
+
+        function reasoningEffortDisplaysCorrectly(testCase)
+            import matlab.unittest.constraints.ContainsSubstring
+            chat = testCase.constructor(ReasoningEffort="low");
+
+            text = formattedDisplayText(chat);
+            testCase.verifyThat(text, ...
+                ContainsSubstring("ReasoningEffort") & ...
+                ContainsSubstring("low"));
+        end
+
+        function reasoningEffortAutoNotDisplayed(testCase)
+            import matlab.unittest.constraints.ContainsSubstring
+            chat = testCase.constructor(ReasoningEffort="auto");
+            text = formattedDisplayText(chat);
+            testCase.verifyThat(text, ~ContainsSubstring("ReasoningEffort"));
+        end
+
+        function verbosityDisplaysCorrectly(testCase)
+            import matlab.unittest.constraints.ContainsSubstring
+            chat = testCase.constructor(Verbosity="low");
+
+            text = formattedDisplayText(chat);
+            testCase.verifyThat(text, ...
+                ContainsSubstring("Verbosity") & ...
+                ContainsSubstring("low"));
+        end
+
+        function verbosityAutoNotDisplayed(testCase)
+            import matlab.unittest.constraints.ContainsSubstring
+            chat = testCase.constructor(Verbosity="auto");
+            text = formattedDisplayText(chat);
+            testCase.verifyThat(text, ~ContainsSubstring("Verbosity"));
+        end
     end
 
     methods (Test) % end-to-end, calling the server

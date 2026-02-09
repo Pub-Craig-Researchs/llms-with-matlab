@@ -10,3 +10,4 @@ examples/mlx-scripts/data/*
 ._*
 .nfs*
 .DS_Store
+.agents/

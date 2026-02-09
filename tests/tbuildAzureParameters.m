@@ -1,11 +1,16 @@
 classdef tbuildAzureParameters < matlab.unittest.TestCase
 % Unit tests for llms.internal.buildAzureParameters
 
-%   Copyright 2025 The MathWorks, Inc.
+%   Copyright 2025-2026 The MathWorks, Inc.
 
     properties (Access = private)
         BasicMessages = {struct("role","user","content","Hello")};
         BasicFunctions = {struct("type","function","function",struct("name","test"))};
+    end
+
+    properties (TestParameter)
+        VerbosityNonAuto = {"low", "medium", "high"};
+        ReasoningEffortNonAuto = {"none", "minimal", "low", "medium", "high", "xhigh"};
     end
 
     methods (Test)
@@ -72,6 +77,30 @@ classdef tbuildAzureParameters < matlab.unittest.TestCase
             testCase.verifyEqual(params.response_format.type, 'json_schema');
             testCase.verifyTrue(isfield(params.response_format, 'json_schema'));
         end
+
+        function verbosityAutoNotIncluded(testCase)
+            nvp = testCase.createNVP(Verbosity="auto");
+            params = llms.internal.buildAzureParameters(testCase.BasicMessages, {}, nvp);
+            testCase.verifyThat(params, ~matlab.unittest.constraints.HasField('verbosity'));
+        end
+
+        function verbosityNonAutoIncluded(testCase, VerbosityNonAuto)
+            nvp = testCase.createNVP(Verbosity=VerbosityNonAuto);
+            params = llms.internal.buildAzureParameters(testCase.BasicMessages, {}, nvp);
+            testCase.verifyEqual(params.verbosity, VerbosityNonAuto);
+        end
+
+        function reasoningEffortAutoNotIncluded(testCase)
+            nvp = testCase.createNVP(ReasoningEffort="auto");
+            params = llms.internal.buildAzureParameters(testCase.BasicMessages, {}, nvp);
+            testCase.verifyThat(params, ~matlab.unittest.constraints.HasField('reasoning_effort'));
+        end
+
+        function reasoningEffortNonAutoIncluded(testCase, ReasoningEffortNonAuto)
+            nvp = testCase.createNVP(ReasoningEffort=ReasoningEffortNonAuto);
+            params = llms.internal.buildAzureParameters(testCase.BasicMessages, {}, nvp);
+            testCase.verifyEqual(params.reasoning_effort, ReasoningEffortNonAuto);
+        end
     end
 
     methods (Access = private)
@@ -89,6 +118,8 @@ classdef tbuildAzureParameters < matlab.unittest.TestCase
                 args.ResponseFormat = "text"
                 args.Seed = []
                 args.StreamFun = []
+                args.Verbosity = "auto"
+                args.ReasoningEffort = "auto"
             end
             nvp = args;
         end
