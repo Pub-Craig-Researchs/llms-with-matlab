@@ -34,7 +34,7 @@ classdef (Abstract) hstructuredOutput < matlab.mock.TestCase
             chat = testCase.structuredModel;
             chat.sendRequestFcn = @(varargin) sendRequestStub.sendRequest(varargin{:});
 
-            testCase.verifyError(@() generate(testCase.structuredModel, ...
+            testCase.verifyError(@() generate(chat, ...
                 "What are the five largest countries whose English names" + ...
                 " start with the letter A?", ...
                 ResponseFormat = prototype, MaxNumTokens=3), "llms:apiReturnedIncompleteJSON");
@@ -43,14 +43,16 @@ classdef (Abstract) hstructuredOutput < matlab.mock.TestCase
 
     methods (Test) % calling the server, end-to-end tests
         function generateWithStructuredOutput(testCase)
-            import matlab.unittest.constraints.ContainsSubstring
+            import matlab.unittest.constraints.IsEqualTo
             import matlab.unittest.constraints.StartsWithSubstring
             res = generate(testCase.structuredModel,"Which animal produces honey?",...
                 ResponseFormat = struct(commonName = "dog", scientificName = "Canis familiaris"));
             testCase.assertClass(res,"struct");
             testCase.verifySize(fieldnames(res),[2,1]);
-            testCase.verifyThat(lower(res.commonName), ContainsSubstring("bee"));
-            testCase.verifyThat(res.scientificName, StartsWithSubstring("Apis"));
+            % we do not want to test the model knowledge here,
+            % just make sure our code is not just copying from the input:
+            testCase.verifyThat(res.commonName, ~IsEqualTo("dog"));
+            testCase.verifyThat(res.scientificName, ~IsEqualTo("Canis familiaris"));
         end
 
         function generateListWithStructuredOutput(testCase)

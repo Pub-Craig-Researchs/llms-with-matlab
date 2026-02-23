@@ -13,11 +13,11 @@ classdef tollamaChat < hstructuredOutput & htoolCalls
     end
 
     properties
-        structuredModel = ollamaChat("mistral-nemo")
-        defaultModel = ollamaChat("mistral-nemo")
-        defaultModelName = "mistral-nemo"
+        structuredModel = ollamaChat("qwen3:0.6b")
+        defaultModel = ollamaChat("qwen3:0.6b")
+        defaultModelName = "qwen3:0.6b"
         % htoolCalls wants to add arguments to the constructor calls
-        constructor = @(varargin) ollamaChat("mistral-nemo", varargin{:})
+        constructor = @(varargin) ollamaChat("qwen3:0.6b", varargin{:})
     end
 
     methods (Test) % not calling the server
@@ -221,7 +221,11 @@ classdef tollamaChat < hstructuredOutput & htoolCalls
         function generateOverridesProperties(testCase)
             import matlab.unittest.constraints.EndsWithSubstring
             chat = testCase.defaultModel;
-            text = generate(chat, "Please count from 1 to 10.", Temperature = 0, StopSequences = "4");
+            [text, response] = generate(chat, "Please count from 1 to 10.", Temperature = 0, StopSequences = "4");
+            % stop sequences apply to the reasoning step, too:
+            if text == "" && isfield(response,"thinking")
+                text = response.thinking;
+            end
             testCase.verifyThat(text, EndsWithSubstring("3, "));
         end
 
@@ -238,81 +242,29 @@ classdef tollamaChat < hstructuredOutput & htoolCalls
             % we have instead.
             import matlab.unittest.constraints.HasField
 
-            f = openAIFunction("writePaperDetails", "Function to write paper details to a table.");
-            f = addParameter(f, "name", type="string", description="Name of the paper.");
-            f = addParameter(f, "url", type="string", description="URL containing the paper.");
-            f = addParameter(f, "explanation", type="string", description="Explanation on why the paper is related to the given topic.");
+            f = openAIFunction("digamma", "Compute the digamma function, aka the logarithmic derivative of gamma.");
+            f = addParameter(f, "z", type="number", description="Point to evaluate at");
 
-            paperExtractor = testCase.constructor( ...
-                "You are an expert in extracting information from a paper.", ...
+            computer = testCase.constructor( ...
+                "Please help the user with scientific calculations.", ...
                 Tools=f, StreamFun=@(s) s);
 
-            input = join([
-            "    <id>http://arxiv.org/abs/2406.04344v1</id>"
-            "    <updated>2024-06-06T17:59:56Z</updated>"
-            "    <published>2024-06-06T17:59:56Z</published>"
-            "    <title>Verbalized Machine Learning: Revisiting Machine Learning with Language"
-            "  Models</title>"
-            "    <summary>  Motivated by the large progress made by large language models (LLMs), we"
-            "introduce the framework of verbalized machine learning (VML). In contrast to"
-            "conventional machine learning models that are typically optimized over a"
-            "continuous parameter space, VML constrains the parameter space to be"
-            "human-interpretable natural language. Such a constraint leads to a new"
-            "perspective of function approximation, where an LLM with a text prompt can be"
-            "viewed as a function parameterized by the text prompt. Guided by this"
-            "perspective, we revisit classical machine learning problems, such as regression"
-            "and classification, and find that these problems can be solved by an"
-            "LLM-parameterized learner and optimizer. The major advantages of VML include"
-            "(1) easy encoding of inductive bias: prior knowledge about the problem and"
-            "hypothesis class can be encoded in natural language and fed into the"
-            "LLM-parameterized learner; (2) automatic model class selection: the optimizer"
-            "can automatically select a concrete model class based on data and verbalized"
-            "prior knowledge, and it can update the model class during training; and (3)"
-            "interpretable learner updates: the LLM-parameterized optimizer can provide"
-            "explanations for why each learner update is performed. We conduct several"
-            "studies to empirically evaluate the effectiveness of VML, and hope that VML can"
-            "serve as a stepping stone to stronger interpretability and trustworthiness in"
-            "ML."
-            "</summary>"
-            "    <author>"
-            "      <name>Tim Z. Xiao</name>"
-            "    </author>"
-            "    <author>"
-            "      <name>Robert Bamler</name>"
-            "    </author>"
-            "    <author>"
-            "      <name>Bernhard Schölkopf</name>"
-            "    </author>"
-            "    <author>"
-            "      <name>Weiyang Liu</name>"
-            "    </author>"
-            "    <arxiv:comment xmlns:arxiv='http://arxiv.org/schemas/atom'>Technical Report v1 (92 pages, 15 figures)</arxiv:comment>"
-            "    <link href='http://arxiv.org/abs/2406.04344v1' rel='alternate' type='text/html'/>"
-            "    <link title='pdf' href='http://arxiv.org/pdf/2406.04344v1' rel='related' type='application/pdf'/>"
-            "    <arxiv:primary_category xmlns:arxiv='http://arxiv.org/schemas/atom' term='cs.LG' scheme='http://arxiv.org/schemas/atom'/>"
-            "    <category term='cs.LG' scheme='http://arxiv.org/schemas/atom'/>"
-            "    <category term='cs.CL' scheme='http://arxiv.org/schemas/atom'/>"
-            "    <category term='cs.CV' scheme='http://arxiv.org/schemas/atom'/>"
-            ], newline);
+            input = "I know gamma(3)=2, but what's the slope of the graph there?";
 
-            topic = "Large Language Models";
-
-            prompt =  "Given the following paper:" + newline + string(input)+ newline +...
-                "Given the topic: "+ topic + newline + "Write the details to a table.";
-            [~, ~, response] = generate(paperExtractor, prompt);
+            [~, ~, response] = generate(computer, input);
 
             % if the tool call works, which is not guaranteed to happen, we
             % will see a cell array here, with the first message a struct
             % containing a tool_call field.
             testCase.assumeClass(response.Body.Data,"cell");
-            response_call = response.Body.Data{1}.message;
-            testCase.assumeThat(response_call, HasField("tool_calls"));
+            hasCall = cellfun(@(body) isfield(body.message,"tool_calls"), response.Body.Data);
+            testCase.assumeTrue(any(hasCall), "no tool calls generated");
+            response_call = response.Body.Data{find(hasCall,1,"first")}.message;
             % Ollama does not have response_call.tool_calls.type == 'function' as returned by OpenAI
-            testCase.verifyEqual(response_call.tool_calls.function.name,'writePaperDetails');
+            testCase.verifyEqual(response_call.tool_calls.function.name,'digamma');
             % already decoded
             data = response_call.tool_calls.function.arguments;
-            testCase.verifyEqual(sort(string(fieldnames(data))), ...
-                sort(["name";"url";"explanation"]));
+            testCase.verifyEqual(string(fieldnames(data)), "z");
         end
 
         function seedFixesResult(testCase)
@@ -391,11 +343,11 @@ classdef tollamaChat < hstructuredOutput & htoolCalls
         end
 
         function queryModels(testCase)
-            % our test setup has at least mistral-nemo loaded
+            % our test setup has at least qwen3:0.6b loaded
             models = ollamaChat.models;
             testCase.verifyClass(models,"string");
             testCase.verifyThat(models, ...
-                matlab.unittest.constraints.IsSupersetOf("mistral-nemo"));
+                matlab.unittest.constraints.IsSupersetOf("qwen3:0.6b"));
         end
 
         function extractModelNamesFromTagsResponse(testCase, ModelDataFromTagsResponse)
