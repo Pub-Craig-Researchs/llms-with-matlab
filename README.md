@@ -1,26 +1,26 @@
 
 # Large Language Models (LLMs) with MATLAB
 
-[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=matlab-deep-learning/llms-with-matlab) [![View Large Language Models (LLMs) with MATLAB on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/163796-large-language-models-llms-with-matlab) 
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=matlab-deep-learning/llms-with-matlab) [![View Large Language Models (LLMs) with MATLAB on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/163796-large-language-models-llms-with-matlab)
 
-Large Language Models (LLMs) with MATLAB lets you connect to large language model APIs using MATLAB®. 
-
+Large Language Models (LLMs) with MATLAB lets you connect to large language model APIs using MATLAB®.
 
 You can connect to:
 
--  [OpenAI® Chat Completions API](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) — For example, connect to ChatGPT™. 
--  [OpenAI Images API](https://platform.openai.com/docs/guides/images) — For example, connect to DALL·E™. 
--  [Azure® OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/) — Connect to OpenAI models from Azure. 
--  [Ollama™](https://ollama.com/) — Connect to models locally or nonlocally. 
+- [OpenAI® Chat Completions API](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) — For example, connect to ChatGPT™.
+- [OpenAI Images API](https://platform.openai.com/docs/guides/images) — For example, connect to DALL·E™.
+- [Azure® OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/) — Connect to OpenAI models from Azure.
+- [DeepSeek API](https://api-docs.deepseek.com/) — Connect to DeepSeek's powerful language and reasoning models.
+- [Ollama™](https://ollama.com/) — Connect to models locally or nonlocally.
 
 Using this add-on, you can:
 
--  Generate responses to natural language prompts.
--  Manage chat history.
--  Generate JSON\-formatted and structured output. 
--  Use tool calling.
--  Call external tools provided by MCP servers (requires the [MATLAB MCP HTTP Client](https://www.mathworks.com/matlabcentral/fileexchange/182699-mcphttpclient)  add\-on).
--  Generate, edit, and describe images. 
+- Generate responses to natural language prompts.
+- Manage chat history.
+- Generate JSON\-formatted and structured output.
+- Use tool calling.
+- Call external tools provided by MCP servers (requires the MATLAB MCP HTTP Client add\-on).
+- Generate, edit, and describe images.
 
 For more information about the features in this add-on, see the documentation in the [`doc`](/doc) directory.
 
@@ -30,7 +30,7 @@ Using this add-on requires MATLAB R2024a or newer.
 
 ## Use MATLAB Online
 
-You can use the add-on in MATLAB Online™ by clicking this link: [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=matlab-deep-learning/llms-with-matlab) 
+You can use the add-on in MATLAB Online™ by clicking this link: [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=matlab-deep-learning/llms-with-matlab)
 
 In MATLAB Online, you can connect to OpenAI and Azure. To connect to Ollama, use an installed version of MATLAB and install the add\-on using the Add\-On Explorer or by cloning the GitHub™ repository.
 
@@ -45,42 +45,54 @@ The recommended way of using the add-on on an installed version of MATLAB is to 
 # Get Started with External APIs
 
 For more information about how to connect to the different APIs from MATLAB, including installation requirements, see:
+
 - [OpenAI](/doc/OpenAI.md)
 - [Azure OpenAI Service](/doc/Azure.md)
 - [Ollama](/doc/Ollama.md)
 
 # Examples
+
 ### Getting Started
-- [Process Generated Text in Real Time by Using ChatGPT in Streaming Mode](/examples/ProcessGeneratedTextinRealTimebyUsingChatGPTinStreamingMode.md) 
-- [Process Generated Text in Real Time by Using Ollama in Streaming Mode](/examples/ProcessGeneratedTextInRealTimeByUsingOllamaInStreamingMode.md) 
+
+- [Process Generated Text in Real Time by Using ChatGPT in Streaming Mode](/examples/ProcessGeneratedTextinRealTimebyUsingChatGPTinStreamingMode.md)
+- [Process Generated Text in Real Time by Using Ollama in Streaming Mode](/examples/ProcessGeneratedTextInRealTimeByUsingOllamaInStreamingMode.md)
 - [Summarize Large Documents Using ChatGPT and MATLAB](/examples/SummarizeLargeDocumentsUsingChatGPTandMATLAB.md) (requires Text Analytics Toolbox™)
 - [Create Simple ChatBot](/examples/CreateSimpleChatBot.md) (requires Text Analytics Toolbox)
 - [Create Simple Ollama ChatBot](/examples/CreateSimpleOllamaChatBot.md) (requires Text Analytics Toolbox)
+
 ### Agentic Workflows
+
 - [Solve Simple Math Problem Using AI Agent](/examples/SolveSimpleMathProblemUsingAIAgent.md)
 - [Fit Polynomial to Data Using AI Agent](/examples/FitPolynomialToDataUsingAIAgentExample.md) (requires Curve Fitting Toolbox™)
-### Data Analysis
-- [Analyze Table Data Using ChatGPT](/examples/AnalyzeTableDataUsingChatGPTExample.md)
-- [Visualize Table Data Using ChatGPT](/examples/VisualizeTableDataUsingChatGPTExample.md)
+
 ### Tool Calling
+
 - [Analyze Scientific Papers Using ChatGPT Function Calls](/examples/AnalyzeScientificPapersUsingFunctionCalls.md)
 - [Analyze Text Data Using Parallel Function Calls with ChatGPT](/examples/AnalyzeTextDataUsingParallelFunctionCallwithChatGPT.md)
 - [Analyze Text Data Using Parallel Function Calls with Ollama](/examples/AnalyzeTextDataUsingParallelFunctionCallwithOllama.md)
+
 ### Structured Output
+
 - [Analyze Sentiment in Text Using ChatGPT and Structured Output](/examples/AnalyzeSentimentinTextUsingChatGPTwithStructuredOutput.md)
+
 ### Retrieval-Augmented Generation (RAG)
+
 - [Retrieval-Augmented Generation Using ChatGPT and MATLAB](/examples/RetrievalAugmentedGenerationUsingChatGPTandMATLAB.md) (requires Text Analytics Toolbox)
 - [Retrieval-Augmented Generation Using Ollama and MATLAB](/examples/RetrievalAugmentedGenerationUsingOllamaAndMATLAB.md) (requires Text Analytics Toolbox)
+
 ### Image Workflows
+
 - [Describe Images Using ChatGPT](/examples/DescribeImagesUsingChatGPT.md)
 - [Using DALL·E To Edit Images](/examples/UsingDALLEToEditImages.md)
 - [Using DALL·E To Generate Images](/examples/UsingDALLEToGenerateImages.md)
 
 # Functions
+
 | **Function**   | **Description**  |
-| :-- | :-- | 
+| :-- | :-- |
 | [openAIChat](/doc/functions/openAIChat.md) | Connect to OpenAI Chat Completion API from MATLAB |
 | [azureChat](/doc/functions/azureChat.md) | Connect to Azure OpenAI Services Chat Completion API from MATLAB |
+| [deepseekChat](/doc/functions/deepseekChat.md) | Connect to DeepSeek Chat API from MATLAB |
 | [ollamaChat](/doc/functions/ollamaChat.md) | Connect to Ollama Server from MATLAB |
 | [generate](/doc/functions/generate.md) | Generate output from large language models |
 | [openAIFunction](/doc/functions/openAIFunction.md) | Use Function Calls from MATLAB |
@@ -102,6 +114,7 @@ For more information about how to connect to the different APIs from MATLAB, inc
 The license is available in the [license.txt](license.txt) file in this GitHub repository.
 
 ## Community Support
+
 [MATLAB Central](https://www.mathworks.com/matlabcentral)
 
-Copyright 2023-2026 The MathWorks, Inc.
+Copyright 2023-2025 The MathWorks, Inc.
